@@ -11,7 +11,6 @@ Modal.prototype.initialize = function(el) {
   this.$prev = $('#modal-prev');
   this.$overlay = $('#modal-overlay');
   this.$window = $(window);
-  this.index = 0;
   this.handleEvents();
 };
 
@@ -50,7 +49,9 @@ Modal.prototype.show = function(e) {
   this.$contents.html("<img src=\"" + src + "\" />");
   this.$container.fadeIn();
   this.$overlay.fadeIn();
-  this.index = $target.data("index");
+//indexをここで定義し外からアクセスできなくする（保守性）
+  var index = $target.data("index");
+  this.countChange = this.createCounter(index, this.$el.length);
   return false;
 };
 //モーダル非表示
@@ -68,18 +69,18 @@ Modal.prototype.slide = function(index) {
   });
 };
 
-Modal.prototype.countChange = function(num, index, len) {
-  return (index + num + len) % len;
+Modal.prototype.createCounter = function(index, len) {
+  return function(num) {
+    return index = (index + num + len) % len;
+  };
 };
-
+//countChangeメソッドを使って現在表示の画像のindexを元に次のindexを計算しslideに渡す。+1
 Modal.prototype.next = function() {
-  this.index = this.countChange( 1, this.index, this.$el.length);
-  this.slide(this.index);
+  this.slide(this.countChange(1));
 };
-
+//countChangeメソッドを使って現在表示の画像のindexを元に次のindexを計算しslideに渡す。−1
 Modal.prototype.prev = function() {
-  this.index = this.countChange( -1, this.index, this.$el.length);
-  this.slide(this.index);
+  this.slide(this.countChange(-1));
 };
 
 var modal = new Modal($("#modal-thumb a"));
