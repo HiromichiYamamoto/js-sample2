@@ -31,8 +31,19 @@ Modal.prototype.handleEvents = function() {
     self.hide(e);
     return false;
   });
-};
 
+  this.$next.on("click", function(e) {
+    self.next(e);
+    return false;
+  });
+
+  this.$prev.on("click", function(e) {
+    self.prev(e);
+    return false;
+  });
+
+};
+//モーダル表示
 Modal.prototype.show = function(e) {
   var $target = $(e.currentTarget),
       src = $target.attr("href");
@@ -42,10 +53,33 @@ Modal.prototype.show = function(e) {
   this.index = $target.data("index");
   return false;
 };
-
+//モーダル非表示
 Modal.prototype.hide = function(e) {
   this.$container.fadeOut();
   this.$overlay.fadeOut();
+};
+//表示画像をfadeoutさせて、引数で受け取った画像をfadeinさせる。
+Modal.prototype.slide = function(index) {
+  this.$contents.find("img").fadeOut({
+    complete: function() {
+      var src = $("[data-index=\"" + index + "\"]").find("img").attr("src");
+      $(this).attr("src", src).fadeIn();
+    }
+  });
+};
+
+Modal.prototype.countChange = function(num, index, len) {
+  return (index + num + len) % len;
+};
+
+Modal.prototype.next = function() {
+  this.index = this.countChange( 1, this.index, this.$el.length);
+  this.slide(this.index);
+};
+
+Modal.prototype.prev = function() {
+  this.index = this.countChange( -1, this.index, this.$el.length);
+  this.slide(this.index);
 };
 
 var modal = new Modal($("#modal-thumb a"));
