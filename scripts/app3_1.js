@@ -8,7 +8,7 @@ window.requestAnimationFrame =
 
 var canvas = document.getElementById( "canvas" ),
   ctx = canvas.getContext( "2d" ),
-  NUM = 20,
+  NUM = 20, //数量
   particles = [],
   W = 500,
   H = 500
@@ -31,7 +31,13 @@ function Particle(ctx, x, y) {
   this.v = {
     x: Math.random()*10-5,
     y: Math.random()*10-5
-  }
+  };
+  this.color = {
+    r: Math.floor(Math.random()*255),
+    g: Math.floor(Math.random()*255),
+    b: Math.floor(Math.random()*255),
+    a: 1
+  };
 }
 
 Particle.prototype.render = function() {
@@ -44,8 +50,8 @@ Particle.prototype.draw = function() {
   //４、再度図形を描画する
   ctx = this.ctx;
   ctx.beginPath(); //パスを初期化
-  ctx.rect( this.x, this.y, 4, 4 ); //
-  ctx.fillStyle = "#99ff66"; //緑指定　　　　　　　　　　　　　　　　　　　　　　　　　　　　
+  ctx.fillStyle = this.gradient();
+  ctx.arc( this.x, this.y, 10, Math.PI*2, false);　　　　　　　　　　　　　　　　　　　　　　　　　　
   ctx.fill(); //塗りつぶし
   ctx.closePath();
 }
@@ -61,6 +67,17 @@ Particle.prototype.wrapPosition = function() {
   if(this.x > W) this.x = 0;
   if(this.y < 0) this.y = H;
   if(this.y > H) this.y = 0;
+}
+//透明の円作成
+Particle.prototype.gradient = function() {
+  //描画色もランダムにする
+  var col = this.color.r + ", " + this.color.g + ", " + this.color.b;
+  var g = this.ctx.createRadialGradient( this.x, this.y, 0, this.x, this.y, 10)
+  //色をつける
+  g.addColorStop(0,   "rgba(" + col + ", 1)")
+  g.addColorStop(0.5, "rgba(" + col + ", 0.2)")
+  g.addColorStop(1,   "rgba(" + col + ", 0)")
+  return g
 }
 
 //１、一度図形を描画
