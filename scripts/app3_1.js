@@ -6,12 +6,15 @@ window.requestAnimationFrame =
   window.msRequestAnimationFrame ||
   function(cb) {setTimeout(cd, 17);};
 
-var canvas = document.getElementById( "canvas" );
-var ctx = canvas.getContext("2d");
-var NUM = 20;
-var particles = [];
+var canvas = document.getElementById( "canvas" ),
+  ctx = canvas.getContext( "2d" ),
+  NUM = 20,
+  particles = [],
+  W = 500,
+  H = 500
 
-canvas.width = canvas.height = 500
+canvas.width = W;
+canvas.height = H;
 
 for(var i = 0; i < NUM; i++) {
   positionX = Math.random() * 120;
@@ -54,10 +57,10 @@ Particle.prototype.updatePosition = function() {
 }
 
 Particle.prototype.wrapPosition = function() {
-  if(this.x < 0) this.x = 500;
-  if(this.x > 500) this.x = 0;
-  if(this.y < 0) this.y = 500;
-  if(this.y > 500) this.y = 0;
+  if(this.x < 0) this.x = W;
+  if(this.x > W) this.x = 0;
+  if(this.y < 0) this.y = H;
+  if(this.y > H) this.y = 0;
 }
 
 //１、一度図形を描画
@@ -65,7 +68,7 @@ render();
 
 function render() {
   //２、一度図形を消去
-  ctx.clearRect(0, 0, 500, 500);
+  ctx.clearRect(0, 0, W, H);
   //配列の各要素の関数renderを実行して図形を描画
   particles.forEach(function(e) { e.render(); });
 
