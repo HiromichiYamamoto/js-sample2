@@ -51,6 +51,16 @@
         <tbody>
         </tbody>
       </table>
+      <script type="text/template" data-template="item">
+        <% _.each(list, function (e, i) { %>
+          <tr>
+            <th><%= e.id %></th>
+            <td><%= e.name %></td>
+            <td><%= e.age %></td>
+            <td><%= e.group %></td>
+          </tr>
+        <% }); %>
+      </script>
     </div>
     <script src="http://code.jquery.com/jquery-2.1.3.min.js"></script>
     <script src="http://underscorejs.org/underscore-min.js"></script>
