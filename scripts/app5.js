@@ -30,18 +30,44 @@
     //   $page.addClass("page-enter"); //一度描写させてからこちらでclassを追加
     // }, 0);
 
-    // css animation
-    $pages
-      .detach()
-      .removeClass("page-enter")
-      .filter(".page"+pageid)
-      .appendTo("article")
-      .addClass("page-enter")
-      .on("webkitAnimationEnd", function(){
-        alert("animationEnd");
-      });
+    // $pages
+    //   .detach()
+    //   .removeClass("page-enter")
+    //   .filter(".page"+pageid)
+    //   .appendTo("article")
+    //   .addClass("page-enter")
+    //   .on("webkitAnimationEnd", function(){
+    //     alert("animationEnd");
+    //   });
 
-  };
+    // css animation
+    var $prevPage = $pages.filter(":visible"); // fadeinと同様に表示中の(fadeout)要素取得
+    var $nextPage = $pages.filter(".page"+pageid); //fadein表示する要素も取得
+
+    function enter() {
+      $pages.detach();
+
+      $nextPage
+        .removeClass("page-enter")
+        .appendTo("article")
+        .addClass("page-enter");
+    }
+
+    if($prevPage.length > 0) {
+      $prevPage
+        .addClass("page-leave") //fadeoutのanimationが始まる
+        .on("webkitAnimationEnd", function onFadeOut() {
+          $nextPage
+            .off("webkitAnimationEnd", onFadeOut)
+            .removeClass("page-leave")
+            .detach();
+          enter();
+        });
+    } else {
+      enter();
+    }
+
+  }
 
   function parseUrl(url) {
     return url.slice(1) || 1; ////＃を削除。空なら１を返す
@@ -56,4 +82,5 @@
   };
 
   init();
+
 })(); //すぐに実行

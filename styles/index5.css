@@ -53,12 +53,22 @@ footer {
 .page.page-enter {
   -webkit-animation: fadein 1.5s ease-out;
 }
-
+.page.page-leave {
+  -webkit-animation: fadeout 0.4s ease-out;
+}
 @-webkit-keyframes fadein {
   0% {
     opacity: 0;
   }
   100% {
     opacity: 1;
+  }
+}
+@-webkit-keyframes fadeout {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
   }
 }
