@@ -6,17 +6,27 @@
   function urlChangeHandler() {
     var pageid = parseUrl( location.hash ); //現在のハッシュを渡す
 
-    $pages
-    .filter(":visible")
-    .fadeOut(400)
-    .promise() //Deferredオブジェクトを返してもらい
-    .then(function(){ //thenでfadeOutの完了時の処理を登録
-      $pages.hide() //fadeOut完了のタイミングでhideする
-        .detach() //一度、配列$pages内の要素をDOMから外し
-        .filter(".page"+pageid) //表示する要素を見つけ
-        .appendTo("article") //article要素に追加
-        .fadeIn(1500);
-    });
+    // $pages
+    // .filter(":visible")
+    // .fadeOut(400)
+    // .promise() //Deferredオブジェクトを返してもらい
+    // .then(function(){ //thenでfadeOutの完了時の処理を登録
+    //   $pages.hide() //fadeOut完了のタイミングでhideする
+    //     .detach() //一度、配列$pages内の要素をDOMから外し
+    //     .filter(".page"+pageid) //表示する要素を見つけ
+    //     .appendTo("article") //article要素に追加
+    //     .fadeIn(1500);
+    // });
+    var $page = $pages
+      .detach()
+      .removeClass("page-enter")
+      .filter(".page"+pageid)
+      .appendTo("article");
+
+    setTimeout(function() {
+      $page.addClass("page-enter");
+    }, 0);
+
   };
 
   function parseUrl(url) {

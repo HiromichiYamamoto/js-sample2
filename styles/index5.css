@@ -30,6 +30,8 @@ footer {
   background: #f2f2f2;
   height: 700px;
   text-align: center;
+  opacity: 0;
+  transition: opacity 1.5s;
 }
 
 .page2 {
@@ -40,4 +42,7 @@ footer {
 }
 .page4 {
   background-color: #fbb;
+}
+.page.page-enter {
+  opacity: 1;
 }
