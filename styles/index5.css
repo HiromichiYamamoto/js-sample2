@@ -50,7 +50,7 @@ footer {
 }*/
 
 /*css animation*/
-.page.page-enter {
+/*.page.page-enter {
   -webkit-animation: fadein 1.5s ease-out;
 }
 .page.page-leave {
@@ -70,5 +70,29 @@ footer {
   }
   100% {
     opacity: 0;
+  }
+}*/
+.page.page-enter {
+  -webkit-animation: flipin 1.5s ease-out;
+}
+.page.page-leave {
+  -webkit-animation: flipout 0.3s ease-out;
+}
+
+@-webkit-keyframes flipin {
+  0% {
+    -webkit-transform: perspective(1200) rotateY(-90deg);
+  }
+  100% {
+    -webkit-transform: perspective(1200) rotateY(0deg);
+  }
+}
+
+@-webkit-keyframes flipout {
+  0% {
+    -webkit-transform: perspective(1200) rotateY(0deg);
+  }
+  100% {
+    -webkit-transform: perspective(1200) rotateY(90deg);
   }
 }
