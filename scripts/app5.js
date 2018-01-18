@@ -6,6 +6,7 @@
   function urlChangeHandler() {
     var pageid = parseUrl( location.hash ); //現在のハッシュを渡す
 
+    //js-animation
     // $pages
     // .filter(":visible")
     // .fadeOut(400)
@@ -17,15 +18,28 @@
     //     .appendTo("article") //article要素に追加
     //     .fadeIn(1500);
     // });
-    var $page = $pages
+
+    //css Transitions
+    // var $page = $pages
+    //   .detach()
+    //   .removeClass("page-enter")
+    //   .filter(".page"+pageid)
+    //   .appendTo("article");
+
+    // setTimeout(function() {
+    //   $page.addClass("page-enter"); //一度描写させてからこちらでclassを追加
+    // }, 0);
+
+    // css animation
+    $pages
       .detach()
       .removeClass("page-enter")
       .filter(".page"+pageid)
-      .appendTo("article");
-
-    setTimeout(function() {
-      $page.addClass("page-enter");
-    }, 0);
+      .appendTo("article")
+      .addClass("page-enter")
+      .on("webkitAnimationEnd", function(){
+        alert("animationEnd");
+      });
 
   };
 
